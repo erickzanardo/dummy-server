@@ -12,12 +12,27 @@ public class DummyServer {
         } else {
             String serverPath = args[0];
 
+            int port = 8080;
             String servicesFolder = null;
+
             if (args.length > 1) {
-                servicesFolder = args[1];
+                String param = args[1];
+
+                try {
+                    // If the second parameter is a number, then it's the server
+                    // port
+                    port = Integer.parseInt(param);
+
+                    if (args.length > 2) {
+                        servicesFolder = args[2];
+                    }
+                } catch (NumberFormatException e) {
+                    // Otherwiser it's the services fodler
+                    servicesFolder = param;
+                }
             }
 
-            Server server = new Server(8080);
+            Server server = new Server(port);
 
             ResourceHandler resource_handler = new ResourceHandler();
             resource_handler.setDirectoriesListed(true);
